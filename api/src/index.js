@@ -1,8 +1,8 @@
-import { typeDefs } from "./graphql-schema";
-import { ApolloServer } from "apollo-server-express";
+import {typeDefs} from "./graphql-schema";
+import {ApolloServer} from "apollo-server-express";
 import express from "express";
-import { v1 as neo4j } from "neo4j-driver";
-import { makeAugmentedSchema } from "neo4j-graphql-js";
+import {v1 as neo4j} from "neo4j-driver";
+import {makeAugmentedSchema} from "neo4j-graphql-js";
 import dotenv from "dotenv";
 
 // set environment variables from ../.env
@@ -42,7 +42,7 @@ const driver = neo4j.driver(
  * generated resolvers to connect to the database.
  */
 const server = new ApolloServer({
-  context: { driver },
+  context: {driver},
   schema: schema,
   introspection: true,
   playground: true

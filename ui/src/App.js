@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React, {Component} from "react";
+import {withStyles} from "@material-ui/core/styles";
 
 import {
   AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
   CssBaseline,
-  Drawer,
-  List,
   Divider,
+  Drawer,
+  IconButton,
+  List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Toolbar,
+  Typography
 } from "@material-ui/core";
 
 import {
-  Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
   Dashboard as DashboardIcon,
   EventNote as EventNoteIcon,
+  Menu as MenuIcon,
   People as PeopleIcon
 } from "@material-ui/icons";
 
@@ -113,19 +113,19 @@ class App extends Component {
   }
 
   handleDrawerOpen = () => {
-    this.setState({ open: true });
+    this.setState({open: true});
   };
 
   handleDrawerClose = () => {
-    this.setState({ open: false });
+    this.setState({open: false});
   };
 
   render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
 
     return (
       <React.Fragment>
-        <CssBaseline />
+        <CssBaseline/>
         <div className={classes.root}>
           <AppBar
             position="absolute"
@@ -147,7 +147,7 @@ class App extends Component {
                   this.state.open && classes.menuButtonHidden
                 )}
               >
-                <MenuIcon />
+                <MenuIcon/>
               </IconButton>
               <Typography
                 component="h1"
@@ -172,17 +172,17 @@ class App extends Component {
           >
             <div className={classes.toolbarIcon}>
               <IconButton onClick={this.handleDrawerClose}>
-                <ChevronLeftIcon />
+                <ChevronLeftIcon/>
               </IconButton>
             </div>
-            <Divider />
+            <Divider/>
             <List>
               <div>
                 <ListItem button onClick={() => this.setSelectedView("Home")}>
                   <ListItemIcon>
-                    <DashboardIcon />
+                    <DashboardIcon/>
                   </ListItemIcon>
-                  <ListItemText primary="Home" />
+                  <ListItemText primary="Home"/>
                 </ListItem>
 
                 <ListItem
@@ -190,28 +190,28 @@ class App extends Component {
                   onClick={() => this.setSelectedView("Businesses")}
                 >
                   <ListItemIcon>
-                    <EventNoteIcon />
+                    <EventNoteIcon/>
                   </ListItemIcon>
-                  <ListItemText primary="Businesses" />
+                  <ListItemText primary="Businesses"/>
                 </ListItem>
 
                 <ListItem button onClick={() => this.setSelectedView("Users")}>
                   <ListItemIcon>
-                    <PeopleIcon />
+                    <PeopleIcon/>
                   </ListItemIcon>
-                  <ListItemText primary="Users" />
+                  <ListItemText primary="Users"/>
                 </ListItem>
               </div>
             </List>
           </Drawer>
           <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
+            <div className={classes.appBarSpacer}/>
 
             {/* FIXME: Use proper routing here instead  */}
             <Typography component="div" className={classes.chartContainer}>
-              {this.state.selectedView === "Home" ? <UserList /> : null}
-              {this.state.selectedView === "Businesses" ? <div /> : null}
-              {this.state.selectedView === "Users" ? <UserList /> : null}
+              {this.state.selectedView === "Home" ? <UserList/> : null}
+              {this.state.selectedView === "Businesses" ? <div/> : null}
+              {this.state.selectedView === "Users" ? <UserList/> : null}
             </Typography>
           </main>
         </div>

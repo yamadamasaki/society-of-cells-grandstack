@@ -1,19 +1,19 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import {useQuery} from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import "./UserList.css";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import {
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Tooltip,
-  Paper,
   TableSortLabel,
-  Typography,
-  TextField
+  TextField,
+  Tooltip,
+  Typography
 } from "@material-ui/core";
 
 const styles = theme => ({
@@ -34,36 +34,36 @@ const styles = theme => ({
 });
 
 const GET_USER = gql`
-  query usersPaginateQuery(
-    $first: Int
-    $offset: Int
-    $orderBy: [_UserOrdering]
-    $filter: _UserFilter
-  ) {
-    User(first: $first, offset: $offset, orderBy: $orderBy, filter: $filter) {
-      id
-      name
-      avgStars
-      numReviews
+    query usersPaginateQuery(
+        $first: Int
+        $offset: Int
+        $orderBy: [_UserOrdering]
+        $filter: _UserFilter
+    ) {
+        User(first: $first, offset: $offset, orderBy: $orderBy, filter: $filter) {
+            id
+            name
+            avgStars
+            numReviews
+        }
     }
-  }
 `;
 
 function UserList(props) {
-  const { classes } = props;
+  const {classes} = props;
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("name");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [filterState, setFilterState] = React.useState({ usernameFilter: "" });
+  const [filterState, setFilterState] = React.useState({usernameFilter: ""});
 
   const getFilter = () => {
     return filterState.usernameFilter.length > 0
-      ? { name_contains: filterState.usernameFilter }
+      ? {name_contains: filterState.usernameFilter}
       : {};
   };
 
-  const { loading, data, error } = useQuery(GET_USER, {
+  const {loading, data, error} = useQuery(GET_USER, {
     variables: {
       first: rowsPerPage,
       offset: rowsPerPage * page,
