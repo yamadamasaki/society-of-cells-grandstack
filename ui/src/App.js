@@ -23,7 +23,7 @@ import {
   People as PeopleIcon
 } from "@material-ui/icons";
 
-import UserList from "./UserList";
+import UserList from "./pages/UserList";
 import classNames from "classnames";
 
 const drawerWidth = 240;
