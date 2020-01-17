@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import {withStyles} from "@material-ui/core/styles";
 
 import {
@@ -120,9 +121,8 @@ class App extends Component {
     this.setState({open: false});
   };
 
-  render() {
-    const {classes} = this.props;
-
+  original = props => {
+    const {classes} = props;
     return (
       <React.Fragment>
         <CssBaseline/>
@@ -216,6 +216,23 @@ class App extends Component {
           </main>
         </div>
       </React.Fragment>
+    )
+  };
+
+  render() {
+    const {classes} = this.props;
+
+    return (
+      <Router>
+        <Switch>
+          <Route path="/hello">
+            <p>Hello World!</p>
+          </Route>
+          <Route path="/">
+            {this.original(this.props)}
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }
