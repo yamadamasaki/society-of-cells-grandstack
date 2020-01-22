@@ -1,0 +1,91 @@
+directive @relation(name: String!, direction: String) on FIELD_DEFINITION | OBJECT
+type Date
+type DateTime
+
+type Organization {
+  id: ID!
+  name: String!
+  type: OrganizationType!
+}
+
+enum OrganizationType {
+  SELF # AgileCore
+  SUPPLIER # ベンダ
+  CUSTOMER # 取引先, 顧客
+  # MARKET # 市場, 業界
+}
+
+type Cell {
+  id: ID!
+  name: String!
+  type: CellType
+  purpose: String
+  services: String
+  facilitators: [Actor] @relation(name: "FACILITATORS", direction: "BOTH")
+  members: [Actor] @relation(name: "MEMBERS", direction: "BOTH")
+}
+
+enum CellType {
+  INNER # 内部セル
+  OUTER # 外部セル
+}
+
+type CellActorContract @relation(name: "CONTRACT") { # 同じ relation name があっても大丈夫か?
+  id: ID!
+  fromDate: Date!
+  toDate: Date
+  payForTime: Int
+  payForCapability: Int
+  description: String
+  isReservation: Boolean
+  appraisals: [APPRAISAL]
+}
+
+enum APPRAISAL {
+  NEGATIVE
+  NEUTRAL
+  POSITIVE
+}
+
+type CellOrganizationContract @relation(name: "CONTRACT") { # 同じ relation name があっても大丈夫か?
+  id: ID!
+  fromDate: Date!
+  toDate: Date
+  description: String
+  accountings: [Accounting]
+}
+
+type Accounting {
+  yearmonth: Int
+  expence: Int
+  cost: Int
+  sales: Int
+  receivable: Int
+  payable: Int
+  asset: Int
+  debt: Int
+}
+
+type Actor {
+  id: ID!
+  name: String!
+  position: ActorPosition!
+  qualification: String
+  career: String
+}
+
+enum ActorPosition {
+  EXECUTIVE_FACILITATOR
+  PROJECT_FACILITATOR
+  ASSISTANT_FACILITATOR
+  PROFESSIONAL
+  EXPERT_STAFF
+  SENIOR_STAFF
+  ASSISTANT_STAFF
+  NEW_FACE
+}
+
+type Market {
+  id: ID!
+  name: String!
+}
