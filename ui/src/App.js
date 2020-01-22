@@ -1,30 +1,27 @@
-import React, {Component} from "react";
+import React from "react";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import OriginalLayout from "./components/OriginalLayout";
 
 import UserList from "./pages/UserList";
+import MainLayout from "./components/MainLayout";
+import Home from "./pages/Home";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+export default () =>
+  <Router>
+    <Switch>
+      <Route path="/hello">
+        <p>Hello World!</p>
+      </Route>
+      <Route path="/original">
+        <OriginalLayout>
+          <UserList/>
+        </OriginalLayout>
+      </Route>
+      <Route path="/">
+        <MainLayout>
+          <Home/>
+        </MainLayout>
+      </Route>
+    </Switch>
+  </Router>
 
-  render() {
-    return (
-      <Router>
-        <Switch>
-          <Route path="/hello">
-            <p>Hello World!</p>
-          </Route>
-          <Route path="/">
-            <OriginalLayout>
-              <UserList/>
-            </OriginalLayout>
-          </Route>
-        </Switch>
-      </Router>
-    );
-  }
-}
-
-export default App;
