@@ -11,7 +11,7 @@ export default props =>
     <DialogTitle id="form-dialog-title">Create an Actor</DialogTitle>
     <DialogContent>
       <DialogContentText>
-        ひとりのひとを創ります. 必要な属性を教えてください
+        ひとりのひとを創ります
       </DialogContentText>
       <CreateActorForm onClose={props.onClose}/>
     </DialogContent>

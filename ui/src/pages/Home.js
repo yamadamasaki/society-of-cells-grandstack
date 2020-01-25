@@ -24,9 +24,9 @@ export default () => {
   const classes = useStyles();
   const [actorCreator, setActorCreator] = React.useState(false);
   const openActorCreator = () => setActorCreator(true);
-  const closeActorCreator = values => {
+  const closeActorCreator = (flag, values) => {
     setActorCreator(false);
-    console.log({values})
+    console.log({flag, values})
   };
 
   const cards = [
