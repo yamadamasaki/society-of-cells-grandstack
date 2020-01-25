@@ -6,6 +6,7 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
+import CreateActorDialog from "../components/CreateActorDialog";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,55 +20,58 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const cards = [
-  {
-    title: 'ひと',
-    cardinal: 1,
-    image: '',
-    newHandler: e => {
-      console.log(e)
-    },
-    listHandler: e => {
-      console.log(e)
-    },
-  },
-  {
-    title: 'セル',
-    cardinal: 2,
-    image: '',
-    newHandler: e => {
-      console.log(e)
-    },
-    listHandler: e => {
-      console.log(e)
-    },
-  },
-  {
-    title: '組織',
-    cardinal: 3,
-    image: '',
-    newHandler: e => {
-      console.log(e)
-    },
-    listHandler: e => {
-      console.log(e)
-    },
-  },
-  {
-    title: '市場',
-    cardinal: 4,
-    image: '',
-    newHandler: e => {
-      console.log(e)
-    },
-    listHandler: e => {
-      console.log(e)
-    },
-  }
-];
-
 export default () => {
   const classes = useStyles();
+  const [actorCreator, setActorCreator] = React.useState(false);
+  const openActorCreator = () => setActorCreator(true);
+  const closeActorCreator = () => setActorCreator(false);
+
+  const cards = [
+    {
+      title: 'ひと',
+      cardinal: 1,
+      image: '',
+      newHandler: e => {
+        openActorCreator()
+      },
+      listHandler: e => {
+        console.log(e)
+      },
+    },
+    {
+      title: 'セル',
+      cardinal: 2,
+      image: '',
+      newHandler: e => {
+        console.log(e)
+      },
+      listHandler: e => {
+        console.log(e)
+      },
+    },
+    {
+      title: '組織',
+      cardinal: 3,
+      image: '',
+      newHandler: e => {
+        console.log(e)
+      },
+      listHandler: e => {
+        console.log(e)
+      },
+    },
+    {
+      title: '市場',
+      cardinal: 4,
+      image: '',
+      newHandler: e => {
+        console.log(e)
+      },
+      listHandler: e => {
+        console.log(e)
+      },
+    }
+  ];
 
   return (
     <Grid container className={classes.root} spacing={2}>
@@ -85,6 +89,7 @@ export default () => {
               </CardContent>
               <CardActions>
                 <Button size="small" onClick={card.newHandler}>New</Button>
+                <CreateActorDialog onClose={closeActorCreator} open={actorCreator}/>
                 <Button size="small" onClick={card.listHandler}>View</Button>
               </CardActions>
             </Card>
