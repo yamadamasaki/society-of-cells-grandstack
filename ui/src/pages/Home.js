@@ -26,7 +26,6 @@ export default () => {
   const openActorCreator = () => setActorCreator(true);
   const closeActorCreator = (flag, values) => {
     setActorCreator(false);
-    console.log({flag, values})
   };
 
   const cards = [

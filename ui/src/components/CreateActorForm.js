@@ -4,11 +4,15 @@ import {LinearProgress} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import React from "react";
 import MenuItem from "@material-ui/core/MenuItem";
-
-import {positions} from "../utils/model"
+import {CREATE_ACTOR, positions} from "../utils/model"
+import {useMutation} from "@apollo/react-hooks";
+import {useSnackbar} from "notistack";
 
 export default props => {
   const onCancel = () => props.onClose(true, {});
+  const [createActor, _] = useMutation(CREATE_ACTOR);
+  const {enqueueSnackbar} = useSnackbar();
+
   return (
     <Formik
       initialValues={{
@@ -24,6 +28,10 @@ export default props => {
       onSubmit={(values, {setSubmitting}) => {
         setTimeout(() => {
           setSubmitting(false);
+          createActor({variables: values})
+            .then(r => enqueueSnackbar(r.errors
+              ? `Failed to add an Actor: ${r.errors}`
+              : `New actor added: ${r.data.CreateActor.name} (${r.data.CreateActor._id})`));
           props.onClose(true, values)
         })
       }}>
