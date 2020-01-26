@@ -30,7 +30,7 @@ enum CellType {
   OUTER # 外部セル
 }
 
-type CellActorContract @relation(name: "CONTRACT") { # 同じ relation name があっても大丈夫か?
+type CellActorContract @relation(name: "CACONTRACT") { # 同じ relation name があっても大丈夫か?
   id: ID!
   fromDate: Date!
   toDate: Date
@@ -47,7 +47,7 @@ enum APPRAISAL {
   POSITIVE
 }
 
-type CellOrganizationContract @relation(name: "CONTRACT") { # 同じ relation name があっても大丈夫か?
+type CellOrganizationContract @relation(name: "COCONTRACT") { # 同じ relation name があっても大丈夫か?
   id: ID!
   fromDate: Date!
   toDate: Date
