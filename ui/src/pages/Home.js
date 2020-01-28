@@ -17,11 +17,36 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     minWidth: 275,
+    margin: 5,
   },
   title: {
     fontSize: 14,
   }
 }));
+
+const NodeAndEdgeCard = props => {
+  const classes = useStyles(props);
+  const content = props.card
+
+  return (
+    <Card className={classes.card}>
+      <CardContent>
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
+          {content.title}
+        </Typography>
+        <Typography>
+          {content.cardinal}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={content.newHandler}>New</Button>
+        {content.dialog}
+        <Button size="small" onClick={content.listHandler}>View</Button>
+      </CardActions>
+    </Card>
+  )
+}
+
 
 export default (props) => {
   const classes = useStyles(props);
@@ -30,7 +55,7 @@ export default (props) => {
   const [organizationCreator, setOrganizationCreator] = React.useState(false);
   const [marketCreator, setMarketCreator] = React.useState(false);
 
-  const cards = [
+  const nodes = [
     {
       title: 'ひと',
       cardinal: 1,
@@ -73,29 +98,54 @@ export default (props) => {
     }
   ];
 
+  const edges = [
+    /*
+    {
+      title: '約束',
+      cardinal:5,
+      image: '',
+      newHandler: _ => setMarketCreator(true),
+      listHandler: e => {
+        console.log(e)
+      },
+      dialog: <CreateMarketDialog onClose={() => setMarketCreator(false)} open={marketCreator}/>,
+    },
+    {
+      title: '契約',
+      cardinal: 6,
+      image: '',
+      newHandler: _ => setOrganizationCreator(true),
+      listHandler: e => {
+        console.log(e)
+      },
+      dialog: <CreateOrganizationDialog onClose={() => setOrganizationCreator(false)} open={organizationCreator}/>
+    }
+    */
+  ]
+
   return (
-    <Grid container className={classes.root} spacing={2}>
-      {
-        cards.map((card, index) =>
-          <Grid key={index} item xs={3}>
-            <Card className={classes.card}>
-              <CardContent>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                  {card.title}
-                </Typography>
-                <Typography>
-                  {card.cardinal}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" onClick={card.newHandler}>New</Button>
-                {card.dialog}
-                <Button size="small" onClick={card.listHandler}>View</Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        )
-      }
+    <Grid container>
+      <Grid container className={classes.root} spacing={2}>
+        {
+          nodes.map((card, index) =>
+            <Grid key={index} item xs={3}>
+              <NodeAndEdgeCard card={card}/>
+            </Grid>
+          )
+        }
+      </Grid>
+      <Grid container className={classes.root} spacing={2}>
+        {
+          edges.map((card, index) =>
+            <React.Fragment key={index}>
+              <Grid item xs={1}></Grid>
+              <Grid item xs={3}>
+                <NodeAndEdgeCard card={card}/>
+              </Grid>
+            </React.Fragment>
+          )
+        }
+      </Grid>
     </Grid>
   )
 }
