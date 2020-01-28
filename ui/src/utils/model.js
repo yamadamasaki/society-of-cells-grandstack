@@ -11,7 +11,13 @@ export const positions = [
   'NEW_FACE'
 ];
 
-export const CREATE_ACTOR= gql`
+export const organizationTypes = [
+  'SELF',
+  'SUPPLIER',
+  'CUSTOMER'
+]
+
+export const CREATE_ACTOR = gql`
   mutation CreateActor($name: String!, $position: ActorPosition!, $qualification: String, $career: String) {
     CreateActor(name: $name, position: $position, qualification: $qualification, career: $career) {
       id
@@ -19,7 +25,17 @@ export const CREATE_ACTOR= gql`
     }
   }
 `
-export const CREATE_MARKET= gql`
+
+export const CREATE_ORGANIZATION = gql`
+  mutation CreateOrganization($name: String!, $type: OrganizationType!) {
+    CreateOrganization(name: $name, type: $type) {
+      id
+      name
+    }
+  }
+`
+
+export const CREATE_MARKET = gql`
   mutation CreateMarket($name: String!) {
     CreateMarket(name: $name) {
       id

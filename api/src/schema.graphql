@@ -21,3 +21,16 @@ type Market {
   id: ID!
   name: String!
 }
+
+type Organization {
+  id: ID!
+  name: String!
+  type: OrganizationType!
+}
+
+enum OrganizationType {
+  SELF # AgileCore
+  SUPPLIER # ベンダ
+  CUSTOMER # 取引先, 顧客
+  # MARKET # 市場, 業界
+}

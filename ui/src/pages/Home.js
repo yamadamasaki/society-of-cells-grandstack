@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import CreateActorDialog from "../components/CreateActorDialog";
+import CreateOrganizationDialog from "../components/CreateOrganizationDialog";
 import CreateMarketDialog from "../components/CreateMarketDialog";
 
 const useStyles = makeStyles(theme => ({
@@ -24,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 export default (props) => {
   const classes = useStyles(props);
   const [actorCreator, setActorCreator] = React.useState(false);
+  const [organizationCreator, setOrganizationCreator] = React.useState(false);
   const [marketCreator, setMarketCreator] = React.useState(false);
 
   const cards = [
@@ -52,12 +54,11 @@ export default (props) => {
       title: '組織',
       cardinal: 3,
       image: '',
-      newHandler: e => {
-        console.log(e)
-      },
+      newHandler: _ => setOrganizationCreator(true),
       listHandler: e => {
         console.log(e)
       },
+      dialog: <CreateOrganizationDialog onClose={() => setOrganizationCreator(false)} open={organizationCreator}/>
     },
     {
       title: '市場',
