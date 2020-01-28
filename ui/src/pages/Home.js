@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import CreateActorDialog from "../components/CreateActorDialog";
+import CreateCellDialog from "../components/CreateCellDialog";
 import CreateOrganizationDialog from "../components/CreateOrganizationDialog";
 import CreateMarketDialog from "../components/CreateMarketDialog";
 
@@ -25,6 +26,7 @@ const useStyles = makeStyles(theme => ({
 export default (props) => {
   const classes = useStyles(props);
   const [actorCreator, setActorCreator] = React.useState(false);
+  const [cellCreator, setCellCreator] = React.useState(false);
   const [organizationCreator, setOrganizationCreator] = React.useState(false);
   const [marketCreator, setMarketCreator] = React.useState(false);
 
@@ -43,12 +45,11 @@ export default (props) => {
       title: 'セル',
       cardinal: 2,
       image: '',
-      newHandler: e => {
-        console.log(e)
-      },
+      newHandler: _ => setCellCreator(true),
       listHandler: e => {
         console.log(e)
       },
+      dialog: <CreateCellDialog onClose={() => setCellCreator(false)} open={cellCreator}/>
     },
     {
       title: '組織',

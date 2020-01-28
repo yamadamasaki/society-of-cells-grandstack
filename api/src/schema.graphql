@@ -17,9 +17,17 @@ enum ActorPosition {
   NEW_FACE
 }
 
-type Market {
+type Cell {
   id: ID!
   name: String!
+  type: CellType
+  purposes: String
+  offers: String
+}
+
+enum CellType {
+  INNER # 内部セル
+  OUTER # 外部セル
 }
 
 type Organization {
@@ -33,4 +41,9 @@ enum OrganizationType {
   SUPPLIER # ベンダ
   CUSTOMER # 取引先, 顧客
   # MARKET # 市場, 業界
+}
+
+type Market {
+  id: ID!
+  name: String!
 }

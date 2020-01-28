@@ -20,7 +20,7 @@ type Cell {
   name: String!
   type: CellType
   purpose: String
-  services: String
+  offers: String
   facilitators: [Actor] @relation(name: "FACILITATORS", direction: "BOTH")
   members: [Actor] @relation(name: "MEMBERS", direction: "BOTH")
 }

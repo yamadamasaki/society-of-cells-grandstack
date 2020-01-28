@@ -30,7 +30,7 @@ export default props => {
           setSubmitting(false);
           createOrganization({variables: values})
             .then(r => enqueueSnackbar(r.errors
-              ? `Failed to add an Organization: ${r.errors}`
+              ? `Failed to add an organization: ${r.errors}`
               : `New organization added: ${r.data.CreateOrganization.name} (${r.data.CreateOrganization.id})`));
           props.onClose(true, values)
         })

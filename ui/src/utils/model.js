@@ -17,9 +17,23 @@ export const organizationTypes = [
   'CUSTOMER'
 ]
 
+export const cellTypes = [
+  'INNER',
+  'OUTER'
+]
+
 export const CREATE_ACTOR = gql`
   mutation CreateActor($name: String!, $position: ActorPosition!, $qualification: String, $career: String) {
     CreateActor(name: $name, position: $position, qualification: $qualification, career: $career) {
+      id
+      name
+    }
+  }
+`
+
+export const CREATE_CELL = gql`
+  mutation CreateCell($name: String!, $type: CellType!, $purposes: String, $offers: String) {
+    CreateCell(name: $name, type: $type, purposes: $purposes, offers: $offers) {
       id
       name
     }
