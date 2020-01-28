@@ -14,7 +14,15 @@ export const positions = [
 export const CREATE_ACTOR= gql`
   mutation CreateActor($name: String!, $position: ActorPosition!, $qualification: String, $career: String) {
     CreateActor(name: $name, position: $position, qualification: $qualification, career: $career) {
-      _id
+      id
+      name
+    }
+  }
+`
+export const CREATE_MARKET= gql`
+  mutation CreateMarket($name: String!) {
+    CreateMarket(name: $name) {
+      id
       name
     }
   }

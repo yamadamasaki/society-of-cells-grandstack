@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import CreateActorDialog from "../components/CreateActorDialog";
+import CreateMarketDialog from "../components/CreateMarketDialog";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 export default (props) => {
   const classes = useStyles(props);
   const [actorCreator, setActorCreator] = React.useState(false);
+  const [marketCreator, setMarketCreator] = React.useState(false);
 
   const cards = [
     {
@@ -33,6 +35,7 @@ export default (props) => {
       listHandler: e => {
         console.log(e)
       },
+      dialog: <CreateActorDialog onClose={() => setActorCreator(false)} open={actorCreator}/>
     },
     {
       title: 'セル',
@@ -60,12 +63,11 @@ export default (props) => {
       title: '市場',
       cardinal: 4,
       image: '',
-      newHandler: e => {
-        console.log(e)
-      },
+      newHandler: _ => setMarketCreator(true),
       listHandler: e => {
         console.log(e)
       },
+      dialog: <CreateMarketDialog onClose={() => setMarketCreator(false)} open={marketCreator}/>,
     }
   ];
 
@@ -85,7 +87,7 @@ export default (props) => {
               </CardContent>
               <CardActions>
                 <Button size="small" onClick={card.newHandler}>New</Button>
-                <CreateActorDialog onClose={() => setActorCreator(false)} open={actorCreator}/>
+                {card.dialog}
                 <Button size="small" onClick={card.listHandler}>View</Button>
               </CardActions>
             </Card>

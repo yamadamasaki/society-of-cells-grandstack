@@ -1,5 +1,5 @@
 type Actor {
-  _id: ID!
+  id: ID!
   name: String!
   position: ActorPosition!
   qualification: String
@@ -15,4 +15,9 @@ enum ActorPosition {
   SENIOR_STAFF
   ASSISTANT_STAFF
   NEW_FACE
+}
+
+type Market {
+  id: ID!
+  name: String!
 }
