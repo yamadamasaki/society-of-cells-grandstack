@@ -7,8 +7,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import CreateActorForm from "./CreateActorForm";
 
 export default props =>
-  <Dialog open={props.open} onClose={props.onClose} aria-labelledby="form-dialog-title">
-    <DialogTitle id="form-dialog-title">Create an Actor</DialogTitle>
+  <Dialog open={props.open} onClose={props.onClose} aria-labelledby="create-actor-dialog">
+    <DialogTitle id="create-actor-dialog">Create an Actor</DialogTitle>
     <DialogContent>
       <DialogContentText>
         ひとりのひとを創ります

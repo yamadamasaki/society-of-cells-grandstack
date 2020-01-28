@@ -20,22 +20,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default () => {
-  const classes = useStyles();
+export default (props) => {
+  const classes = useStyles(props);
   const [actorCreator, setActorCreator] = React.useState(false);
-  const openActorCreator = () => setActorCreator(true);
-  const closeActorCreator = (flag, values) => {
-    setActorCreator(false);
-  };
 
   const cards = [
     {
       title: 'ひと',
       cardinal: 1,
       image: '',
-      newHandler: e => {
-        openActorCreator()
-      },
+      newHandler: _ => setActorCreator(true),
       listHandler: e => {
         console.log(e)
       },
@@ -91,7 +85,7 @@ export default () => {
               </CardContent>
               <CardActions>
                 <Button size="small" onClick={card.newHandler}>New</Button>
-                <CreateActorDialog onClose={closeActorCreator} open={actorCreator}/>
+                <CreateActorDialog onClose={() => setActorCreator(false)} open={actorCreator}/>
                 <Button size="small" onClick={card.listHandler}>View</Button>
               </CardActions>
             </Card>
