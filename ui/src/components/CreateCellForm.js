@@ -10,7 +10,7 @@ import {useSnackbar} from "notistack";
 
 export default props => {
   const onCancel = () => props.onClose(true, {});
-  const [createCell, _] = useMutation(CREATE_CELL);
+  const [createCell,] = useMutation(CREATE_CELL);
   const {enqueueSnackbar} = useSnackbar();
 
   return (

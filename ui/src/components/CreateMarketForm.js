@@ -9,7 +9,7 @@ import {useSnackbar} from "notistack";
 
 export default props => {
   const onCancel = () => props.onClose(true, {});
-  const [createMarket, _] = useMutation(CREATE_MARKET);
+  const [createMarket,] = useMutation(CREATE_MARKET);
   const {enqueueSnackbar} = useSnackbar();
 
   return (

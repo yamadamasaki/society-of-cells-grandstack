@@ -10,7 +10,7 @@ import {useSnackbar} from "notistack";
 
 export default props => {
   const onCancel = () => props.onClose(true, {});
-  const [createOrganization, _] = useMutation(CREATE_ORGANIZATION);
+  const [createOrganization,] = useMutation(CREATE_ORGANIZATION);
   const {enqueueSnackbar} = useSnackbar();
 
   return (

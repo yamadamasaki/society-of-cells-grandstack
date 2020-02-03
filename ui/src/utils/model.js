@@ -65,10 +65,10 @@ export const CREATE_MARKET = gql`
 `
 
 export const CREATE_COMMITMENT = gql`
-  mutation CreateCommitment($from: _ActorInput!, $to: _CellInput!, $data: _CommitmentInput!) {
-    CreateCommitment(from: $from, to: $to, data: $data) {
-      from { id }
-      to { id }
+  mutation AddActorCommitments($from: _ActorInput!, $to: _CellInput!, $data: _CommitmentInput!) {
+    AddActorCommitments(from: $from, to: $to, data: $data) {
+      from { id, name }
+      to { id, name }
     }
   }
 `
