@@ -4,6 +4,7 @@ type Actor {
   position: ActorPosition!
   qualification: String
   career: String
+  commitments: [Commitment]
 }
 
 enum ActorPosition {
@@ -23,6 +24,7 @@ type Cell {
   type: CellType
   purposes: String
   offers: String
+  commitments: [Commitment]
 }
 
 enum CellType {
@@ -46,4 +48,23 @@ enum OrganizationType {
 type Market {
   id: ID!
   name: String!
+}
+
+type Commitment @relation(name: "COMMITMENT", direction: "BOTH") {
+  from: Actor
+  to: Cell
+  fromDate: Date!
+  toDate: Date
+  payForTime: Int
+  payForCapability: Int
+  description: String
+  isReservation: Boolean
+  appraisals: Appraisal
+  asFacilitator: Boolean
+}
+
+enum Appraisal {
+  NEGATIVE
+  NEUTRAL
+  POSITIVE
 }

@@ -22,6 +22,12 @@ export const cellTypes = [
   'OUTER'
 ]
 
+export const appraisal = [
+  'NEGATIVE',
+  'NEUTRAL',
+  'POSITIVE'
+]
+
 export const CREATE_ACTOR = gql`
   mutation CreateActor($name: String!, $position: ActorPosition!, $qualification: String, $career: String) {
     CreateActor(name: $name, position: $position, qualification: $qualification, career: $career) {
@@ -54,6 +60,15 @@ export const CREATE_MARKET = gql`
     CreateMarket(name: $name) {
       id
       name
+    }
+  }
+`
+
+export const CREATE_COMMITMENT = gql`
+  mutation CreateCommitment($from: _ActorInput!, $to: _CellInput!, $data: _CommitmentInput!) {
+    CreateCommitment(from: $from, to: $to, data: $data) {
+      from { id }
+      to { id }
     }
   }
 `

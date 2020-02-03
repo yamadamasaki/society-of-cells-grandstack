@@ -10,6 +10,7 @@ import CreateActorDialog from "../components/CreateActorDialog";
 import CreateCellDialog from "../components/CreateCellDialog";
 import CreateOrganizationDialog from "../components/CreateOrganizationDialog";
 import CreateMarketDialog from "../components/CreateMarketDialog";
+import CreateCommitmentDialog from "../components/CreateCommitmentDialog";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,6 +55,7 @@ export default (props) => {
   const [cellCreator, setCellCreator] = React.useState(false);
   const [organizationCreator, setOrganizationCreator] = React.useState(false);
   const [marketCreator, setMarketCreator] = React.useState(false);
+  const [commitmentCreator, setCommitmentCreator] = React.useState(false);
 
   const nodes = [
     {
@@ -99,16 +101,15 @@ export default (props) => {
   ];
 
   const edges = [
-    /*
     {
       title: '約束',
       cardinal:5,
       image: '',
-      newHandler: _ => setMarketCreator(true),
+      newHandler: _ => setCommitmentCreator(true),
       listHandler: e => {
         console.log(e)
       },
-      dialog: <CreateMarketDialog onClose={() => setMarketCreator(false)} open={marketCreator}/>,
+      dialog: <CreateCommitmentDialog onClose={() => setCommitmentCreator(false)} open={commitmentCreator}/>,
     },
     {
       title: '契約',
@@ -120,7 +121,6 @@ export default (props) => {
       },
       dialog: <CreateOrganizationDialog onClose={() => setOrganizationCreator(false)} open={organizationCreator}/>
     }
-    */
   ]
 
   return (
