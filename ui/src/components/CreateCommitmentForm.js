@@ -2,20 +2,24 @@ import {Form, Formik} from "formik";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Button from "@material-ui/core/Button";
 import React from "react";
-import {CREATE_COMMITMENT, appraisal} from "../utils/model"
+import {CREATE_COMMITMENT} from "../utils/model"
 import {useMutation, useQuery} from "@apollo/react-hooks";
 import {useSnackbar} from "notistack";
 import {DatePicker} from 'formik-material-ui-pickers';
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns'
 import gql from "graphql-tag"
+import FormControl from "@material-ui/core/FormControl";
+import {InputLabel} from "@material-ui/core";
+import {Select} from "formik-material-ui";
+import MenuItem from "@material-ui/core/MenuItem";
 
 export default props => {
   const onCancel = () => props.onClose(true, {});
   const [createCommitment,] = useMutation(CREATE_COMMITMENT);
   const {enqueueSnackbar} = useSnackbar();
-  const {loading: l_a, data: actors} = useQuery(gql`query {Actor {id, name}}`, { onError: e => enqueueSnackbar("GET_ALL_ACTORS failed")});
-  const {loading: l_c, data: cells} = useQuery(gql`query {Cell {id, name}}`, { onError: e => enqueueSnackbar("GET_ALL_CELLS failed")});
+  const {loading: l_a, data: actors} = useQuery(gql`query {Actor {id, name}}`, {onError: e => enqueueSnackbar("GET_ALL_ACTORS failed")});
+  const {loading: l_c, data: cells} = useQuery(gql`query {Cell {id, name}}`, {onError: e => enqueueSnackbar("GET_ALL_CELLS failed")});
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -25,15 +29,16 @@ export default props => {
         }}
         validate={values => {
           const errors = {};
-          if (!values.fromDate) errors.name = 'Required';
+          if (!values.fromDate) errors.fromDate = 'Required';
+          if (!values.from) errors.from = 'Required';
+          if (!values.to) errors.to = 'Required';
           return errors
         }}
         onSubmit={(values, {setSubmitting}) => {
-          values.from = {id: "51e3f1f4-049a-4fc6-9b3b-68ecf4719b90"};
-          values.to = {id: "34012f94-91b2-497d-98e0-3d661bfc9501"};
           const date = values.fromDate;
           values.data = {fromDate: {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()}};
-          console.log({values});
+          values.from = {id: values.from};
+          values.to = {id: values.to};
           setTimeout(() => {
             setSubmitting(false);
             createCommitment({variables: values})
@@ -46,8 +51,30 @@ export default props => {
         {({submitForm, isSubmitting}) => (
           <React.Fragment>
             {(l_a || l_c) && <LinearProgress/>}
-            {(actors && cells) && !(l_a || l_c)  && (
+            {(actors && cells) && !(l_a || l_c) && (
               <Form>
+                <FormControl>
+                  <InputLabel htmlFor="from-select">Actor</InputLabel>
+                  <Select name="from" inputProps={{id: 'from-select'}}>
+                    {
+                      actors.Actor.map((it, index) => (
+                        <MenuItem value={it.id} key={index}>{it.name}</MenuItem>
+                      ))
+                    }
+                  </Select>
+                </FormControl>
+                <br/>
+                <FormControl>
+                  <InputLabel htmlFor="to-select">Cell</InputLabel>
+                  <Select name="to" inputProps={{id: 'to-select'}}>
+                    {
+                      cells.Cell.map((it, index) => (
+                        <MenuItem value={it.id} key={index}>{it.name}</MenuItem>
+                      ))
+                    }
+                  </Select>
+                </FormControl>
+                <br/>
                 <DatePicker name="fromDate" label="From Date"/>
                 <br/>
                 {isSubmitting && <LinearProgress/>}

@@ -11,7 +11,7 @@ export default props =>
     <DialogTitle id="create-commitment-dialog">Create an Commitment</DialogTitle>
     <DialogContent>
       <DialogContentText>
-        ひとりのひとを創ります
+        ひとがセルにコミットメントします
       </DialogContentText>
       <CreateCommitmentForm onClose={props.onClose}/>
     </DialogContent>
