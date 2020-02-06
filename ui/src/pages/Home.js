@@ -102,7 +102,7 @@ export default (props) => {
 
   const edges = [
     {
-      title: '約束',
+      title: 'コミットメント',
       cardinal:5,
       image: '',
       newHandler: _ => setCommitmentCreator(true),
@@ -112,7 +112,7 @@ export default (props) => {
       dialog: <CreateCommitmentDialog onClose={() => setCommitmentCreator(false)} open={commitmentCreator}/>,
     },
     {
-      title: '契約',
+      title: 'コントラクト',
       cardinal: 6,
       image: '',
       newHandler: _ => setOrganizationCreator(true),

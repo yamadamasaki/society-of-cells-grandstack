@@ -55,12 +55,13 @@ type Commitment @relation(name: "COMMITMENT", direction: "BOTH") {
   to: Cell
   fromDate: Date!
   toDate: Date
-  payForTime: Int
-  payForCapability: Int
+  paymentBase: String # time/capability
+  utilization: Int # 稼働率
+  rate: Int # 単価 (¥/points)
+  asFacilitator: Boolean!
+  isReservation: Boolean!
   description: String
-  isReservation: Boolean
   appraisals: Appraisal
-  asFacilitator: Boolean
 }
 
 enum Appraisal {
