@@ -11,6 +11,7 @@ import CreateCellDialog from "../components/CreateCellDialog";
 import CreateOrganizationDialog from "../components/CreateOrganizationDialog";
 import CreateMarketDialog from "../components/CreateMarketDialog";
 import CreateCommitmentDialog from "../components/CreateCommitmentDialog";
+import CreateContractDialog from "../components/CreateContractDialog";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 const NodeAndEdgeCard = props => {
   const classes = useStyles(props);
-  const content = props.card
+  const content = props.card;
 
   return (
     <Card className={classes.card}>
@@ -46,8 +47,7 @@ const NodeAndEdgeCard = props => {
       </CardActions>
     </Card>
   )
-}
-
+};
 
 export default (props) => {
   const classes = useStyles(props);
@@ -56,6 +56,7 @@ export default (props) => {
   const [organizationCreator, setOrganizationCreator] = React.useState(false);
   const [marketCreator, setMarketCreator] = React.useState(false);
   const [commitmentCreator, setCommitmentCreator] = React.useState(false);
+  const [contractCreator, setContractCreator] = React.useState(false);
 
   const nodes = [
     {
@@ -103,7 +104,7 @@ export default (props) => {
   const edges = [
     {
       title: 'コミットメント',
-      cardinal:5,
+      cardinal: 5,
       image: '',
       newHandler: _ => setCommitmentCreator(true),
       listHandler: e => {
@@ -115,13 +116,13 @@ export default (props) => {
       title: 'コントラクト',
       cardinal: 6,
       image: '',
-      newHandler: _ => setOrganizationCreator(true),
+      newHandler: _ => setContractCreator(true),
       listHandler: e => {
         console.log(e)
       },
-      dialog: <CreateOrganizationDialog onClose={() => setOrganizationCreator(false)} open={organizationCreator}/>
+      dialog: <CreateContractDialog onClose={() => setContractCreator(false)} open={contractCreator}/>
     }
-  ]
+  ];
 
   return (
     <Grid container>

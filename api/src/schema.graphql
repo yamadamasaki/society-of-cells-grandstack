@@ -25,6 +25,8 @@ type Cell {
   purposes: String
   offers: String
   commitments: [Commitment]
+  contracts: [Contract]
+  accountings: [Accounting]
 }
 
 enum CellType {
@@ -36,6 +38,8 @@ type Organization {
   id: ID!
   name: String!
   type: OrganizationType!
+  contracts: [Contract]
+  accountings: [Accounting]
 }
 
 enum OrganizationType {
@@ -68,4 +72,27 @@ enum Appraisal {
   NEGATIVE
   NEUTRAL
   POSITIVE
+}
+
+type Contract @relation(name: "CONTRACT", direction: "BOTH") {
+  from: Cell
+  to: Organization
+  fromDate: Date!
+  toDate: Date
+  description: String
+}
+
+type Accounting @relation(name: "ACCOUNTING", direction: "BOTH") {
+  from: Cell
+  to: Organization
+  contract: String!
+  year: Int!
+  month: Int!
+  expence: Int # 支払 (to Actor)
+  cost: Int # 費用 (exept expence above)
+  sales: Int # 売上
+  receivable: Int # 売掛
+  payable: Int # 買掛
+  asset: Int # 資産
+  debt: Int # 負債
 }

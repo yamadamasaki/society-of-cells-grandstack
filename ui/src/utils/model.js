@@ -15,18 +15,18 @@ export const organizationTypes = [
   'SELF',
   'SUPPLIER',
   'CUSTOMER'
-]
+];
 
 export const cellTypes = [
   'INNER',
   'OUTER'
-]
+];
 
 export const appraisal = [
   'NEGATIVE',
   'NEUTRAL',
   'POSITIVE'
-]
+];
 
 export const CREATE_ACTOR = gql`
   mutation CreateActor($name: String!, $position: ActorPosition!, $qualification: String, $career: String) {
@@ -35,7 +35,7 @@ export const CREATE_ACTOR = gql`
       name
     }
   }
-`
+`;
 
 export const CREATE_CELL = gql`
   mutation CreateCell($name: String!, $type: CellType!, $purposes: String, $offers: String) {
@@ -44,7 +44,7 @@ export const CREATE_CELL = gql`
       name
     }
   }
-`
+`;
 
 export const CREATE_ORGANIZATION = gql`
   mutation CreateOrganization($name: String!, $type: OrganizationType!) {
@@ -53,7 +53,7 @@ export const CREATE_ORGANIZATION = gql`
       name
     }
   }
-`
+`;
 
 export const CREATE_MARKET = gql`
   mutation CreateMarket($name: String!) {
@@ -62,7 +62,7 @@ export const CREATE_MARKET = gql`
       name
     }
   }
-`
+`;
 
 export const CREATE_COMMITMENT = gql`
   mutation AddActorCommitments($from: _ActorInput!, $to: _CellInput!, $data: _CommitmentInput!) {
@@ -71,4 +71,13 @@ export const CREATE_COMMITMENT = gql`
       to { id, name }
     }
   }
-`
+`;
+
+export const CREATE_CONTRACT = gql`
+  mutation AddCellContracts($from: _CellInput!, $to: _OrganizationInput!, $data: _ContractInput!) {
+    AddCellContracts(from: $from, to: $to, data: $data) {
+      from { id, name }
+      to { id, name }
+    }
+  }
+`;
