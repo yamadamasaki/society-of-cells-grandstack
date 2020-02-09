@@ -5,6 +5,7 @@ import OriginalLayout from "./components/OriginalLayout";
 import UserList from "./pages/UserList";
 import MainLayout from "./components/MainLayout";
 import Home from "./pages/Home";
+import Vis from "./pages/Vis";
 
 export default () =>
   <Router>
@@ -17,9 +18,14 @@ export default () =>
           <UserList/>
         </OriginalLayout>
       </Route>
-      <Route path="/">
+      <Route exact path="/">
         <MainLayout>
           <Home/>
+        </MainLayout>
+      </Route>
+      <Route path="/vis">
+        <MainLayout>
+          <Vis/>
         </MainLayout>
       </Route>
     </Switch>
