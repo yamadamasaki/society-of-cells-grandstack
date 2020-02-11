@@ -6,6 +6,7 @@ import UserList from "./pages/UserList";
 import MainLayout from "./components/MainLayout";
 import Home from "./pages/Home";
 import Vis from "./pages/Vis";
+import Actors from "./pages/Actors";
 
 export default () =>
   <Router>
@@ -21,6 +22,11 @@ export default () =>
       <Route exact path="/">
         <MainLayout>
           <Home/>
+        </MainLayout>
+      </Route>
+      <Route exact path="/actors">
+        <MainLayout>
+          <Actors/>
         </MainLayout>
       </Route>
       <Route path="/vis">
