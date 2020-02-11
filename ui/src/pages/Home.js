@@ -12,6 +12,12 @@ import CreateOrganizationDialog from "../components/CreateOrganizationDialog";
 import CreateMarketDialog from "../components/CreateMarketDialog";
 import CreateCommitmentDialog from "../components/CreateCommitmentDialog";
 import CreateContractDialog from "../components/CreateContractDialog";
+import NeoGraph from "../components/NeoGraph";
+import {useQuery} from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import {useSnackbar} from "notistack";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import {all, any, values} from "ramda";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -124,6 +130,20 @@ export default (props) => {
     }
   ];
 
+  const {enqueueSnackbar} = useSnackbar();
+  const loadings = {};
+  const results = {};
+
+  ({loading: loadings.actor, data: results.actor} =
+    useQuery(gql`query {Actor {id, name, commitments {Cell {id}}}}`,
+      {onError: e => enqueueSnackbar("GET_ALL_ACTORS failed")}));
+  ({loading: loadings.cell, data: results.cell} =
+    useQuery(gql`query {Cell {id, name, contracts {Organization {id}}}}`,
+      {onError: e => enqueueSnackbar("GET_ALL_CELLS failed")}));
+  ({loading: loadings.organization, data: results.organization} =
+    useQuery(gql`query {Organization {id, name}}`,
+      {onError: e => enqueueSnackbar("GET_ALL_ORGANIZATIONS failed")}));
+
   return (
     <Grid container>
       <Grid container className={classes.root} spacing={2}>
@@ -146,6 +166,12 @@ export default (props) => {
             </React.Fragment>
           )
         }
+      </Grid>
+      <Grid container className={classes.root} spacing={2}>
+        {any(it => !!it)(values(loadings)) && <LinearProgress/>}
+        {all(it => !!it)(values(results)) && (
+          <NeoGraph neoGraph={{...results.actor, ...results.cell, ...results.organization}}/>
+        )}
       </Grid>
     </Grid>
   )
