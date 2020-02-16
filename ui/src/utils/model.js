@@ -33,6 +33,11 @@ export const cellTypes = [
   'OUTER'
 ];
 
+export const cellTypesWithLabel = {
+  INNER: 'INNER',
+  OUTER: 'OUTER'
+};
+
 export const appraisal = [
   'NEGATIVE',
   'NEUTRAL',
@@ -55,7 +60,7 @@ export const UPDATE_ACTOR = gql`
       name
     }
   }
-`
+`;
 
 export const DELETE_ACTOR = gql`
   mutation DeleteActor($id: ID!) {
@@ -64,11 +69,29 @@ export const DELETE_ACTOR = gql`
       name
     }
   }
-`
+`;
 
 export const CREATE_CELL = gql`
   mutation CreateCell($name: String!, $type: CellType!, $purposes: String, $offers: String) {
     CreateCell(name: $name, type: $type, purposes: $purposes, offers: $offers) {
+      id
+      name
+    }
+  }
+`;
+
+export const UPDATE_CELL = gql`
+  mutation UpdateCell($id: ID!, $name: String,  $type: CellType!, $purposes: String, $offers: String) {
+    UpdateCell(id: $id, name: $name, type: $type, purposes: $purposes, offers: $offers) {
+      id
+      name
+    }
+  }
+`;
+
+export const DELETE_CELL = gql`
+  mutation DeleteCell($id: ID!) {
+    DeleteCell(id: $id) {
       id
       name
     }
@@ -116,3 +139,9 @@ export const GET_ALL_ACTORS_TREE = gql`
   {Actor {id, name, position, qualification, career, commitments
   {Cell {id, name, type, purposes, offers, contracts
   {Organization {name, type}}}}}}`;
+
+export const GET_ALL_CELLS_TREE = gql`
+  query
+  {Cell {id, name, type, purposes, offers, contracts
+  {Organization {name, type}}}}
+`;

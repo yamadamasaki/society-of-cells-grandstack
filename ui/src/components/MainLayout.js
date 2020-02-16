@@ -1,11 +1,6 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import {AppBar, Toolbar, IconButton, Typography, Button, Link, makeStyles} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu"
-import {makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,7 +25,7 @@ export default props => {
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Society of Cells
+            <Link href="/" color="inherit" underline="none">Society of Cells</Link>
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>

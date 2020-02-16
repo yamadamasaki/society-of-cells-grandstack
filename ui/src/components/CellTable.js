@@ -1,10 +1,9 @@
 import React from "react";
 import MaterialTable from "material-table";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {CREATE_ACTOR, DELETE_ACTOR, GET_ALL_ACTORS_TREE, positionsWithLabel, UPDATE_ACTOR} from "../utils/model"
+import {cellTypesWithLabel, CREATE_CELL, DELETE_CELL, GET_ALL_CELLS_TREE, UPDATE_CELL} from "../utils/model"
 import {useMutation} from "@apollo/react-hooks";
 import {useSnackbar} from "notistack";
-import CellTable from "./CellTable";
 
 const useStyles = makeStyles({
   root: {
@@ -14,20 +13,20 @@ const useStyles = makeStyles({
 
 const schema = [
   {title: 'name', field: 'name'},
-  {title: 'position', field: 'position', lookup: positionsWithLabel},
+  {title: 'type', field: 'type', lookup: cellTypesWithLabel},
   {
-    title: 'qualification', field: 'qualification',
+    title: 'purposes', field: 'purposes',
     render: rowData => (
-      <textarea value={rowData.qualification || ""} readOnly/>
+      <textarea value={rowData.purposes || ""} readOnly/>
     ),
     editComponent: props => (
       <textarea value={props.value || ""} onChange={e => props.onChange(e.target.value)}/>
     )
   },
   {
-    title: 'career', field: 'career',
+    title: 'offers', field: 'offers',
     render: rowData => (
-      <textarea value={rowData.career || ""} readOnly/>
+      <textarea value={rowData.offers || ""} readOnly/>
     ),
     editComponent: props => (
       <textarea value={props.value || ""} onChange={e => props.onChange(e.target.value)}/>
@@ -35,78 +34,80 @@ const schema = [
   },
 ];
 
-export default ({actors, cell = null}, ...props) => {
+export default ({cells, actor = null, organization = null}, ...props) => {
   const classes = useStyles(props);
   const {enqueueSnackbar} = useSnackbar();
 
-  const [createActor] = useMutation(
-    CREATE_ACTOR, {
-      refetchQueries: [{query: GET_ALL_ACTORS_TREE}],
+  const [createCell] = useMutation(
+    CREATE_CELL, {
+      refetchQueries: [{query: GET_ALL_CELLS_TREE}],
     });
 
   const addRow = row => {
     return (
       new Promise((resolve, reject) => {
         setTimeout(() => {
-          createActor({variables: row})
+          createCell({variables: row})
             .then(r => enqueueSnackbar(r.errors
-              ? `Failed to add an actor: ${r.errors}`
-              : `New actor added: ${r.data.CreateActor.name} (${r.data.CreateActor.id})`));
+              ? `Failed to add an cell: ${r.errors}`
+              : `New cell added: ${r.data.CreateCell.name} (${r.data.CreateCell.id})`));
           resolve()
         }, 1000)
       })
     );
   };
 
-  const [updateActor] = useMutation(
-    UPDATE_ACTOR, {
-      refetchQueries: [{query: GET_ALL_ACTORS_TREE}],
+  const [updateCell] = useMutation(
+    UPDATE_CELL, {
+      refetchQueries: [{query: GET_ALL_CELLS_TREE}],
     }
   );
 
   const updateRow = (newRow, oldRow) => (
     new Promise((resolve, reject) => {
       setTimeout(() => {
-        updateActor({variables: newRow})
+        updateCell({variables: newRow})
           .then(r => enqueueSnackbar(r.errors
-            ? `Failed to update the actor: ${r.errors}`
-            : `The actor updated: ${r.data.UpdateActor.name} (${r.data.UpdateActor.id})`));
+            ? `Failed to update the cell: ${r.errors}`
+            : `The cell updated: ${r.data.UpdateCell.name} (${r.data.UpdateCell.id})`));
         resolve()
       }, 1000)
     })
   );
 
-  const [deleteActor] = useMutation(
-    DELETE_ACTOR, {
-      refetchQueries: [{query: GET_ALL_ACTORS_TREE}],
+  const [deleteCell] = useMutation(
+    DELETE_CELL, {
+      refetchQueries: [{query: GET_ALL_CELLS_TREE}],
     }
   );
 
   const deleteRow = oldRow => (
     new Promise((resolve, reject) => {
       setTimeout(() => {
-        deleteActor({variables: oldRow})
+        deleteCell({variables: oldRow})
           .then(r => enqueueSnackbar(r.errors
-            ? `Failed to delete the actor: ${r.errors}`
-            : `The actor deleted: ${r.data.DeleteActor.name} (${r.data.DeleteActor.id})`));
+            ? `Failed to delete the cell: ${r.errors}`
+            : `The cell deleted: ${r.data.DeleteCell.name} (${r.data.DeleteCell.id})`));
         resolve()
       }, 1000)
     })
   );
 
   const detailPanel = row => {
-    console.log({row});
     return (
-      <CellTable cells={row.commitments} actor={row}/>
+      <>
+        {/*<CellsTable cells={row.commitments}/>*/}
+        <h1>CellsTable</h1>
+      </>
     )
   };
 
   return (
     <div className={classes.root}>
       <MaterialTable
-        title='Actors'
+        title='Cells'
         columns={schema}
-        data={actors}
+        data={cells}
         editable={{
           onRowAdd: addRow,
           onRowUpdate: updateRow,

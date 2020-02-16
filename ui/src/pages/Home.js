@@ -49,7 +49,7 @@ const NodeAndEdgeCard = props => {
       <CardActions>
         <Button size="small" onClick={content.newHandler}>New</Button>
         {content.dialog}
-        <Button size="small" onClick={content.listHandler}>View</Button>
+        {content.viewLink && <Button size="small" href={content.viewLink}>View</Button>}
       </CardActions>
     </Card>
   )
@@ -70,39 +70,31 @@ export default (props) => {
       cardinal: 1,
       image: '',
       newHandler: _ => setActorCreator(true),
-      listHandler: e => {
-        console.log(e)
-      },
-      dialog: <CreateActorDialog onClose={() => setActorCreator(false)} open={actorCreator}/>
+      viewLink: '/Actors',
+      dialog: <CreateActorDialog onClose={() => setActorCreator(false)} open={actorCreator}/>,
     },
     {
       title: 'セル',
       cardinal: 2,
       image: '',
       newHandler: _ => setCellCreator(true),
-      listHandler: e => {
-        console.log(e)
-      },
-      dialog: <CreateCellDialog onClose={() => setCellCreator(false)} open={cellCreator}/>
+      viewLink: '/Cells',
+      dialog: <CreateCellDialog onClose={() => setCellCreator(false)} open={cellCreator}/>,
     },
     {
       title: '組織',
       cardinal: 3,
       image: '',
       newHandler: _ => setOrganizationCreator(true),
-      listHandler: e => {
-        console.log(e)
-      },
-      dialog: <CreateOrganizationDialog onClose={() => setOrganizationCreator(false)} open={organizationCreator}/>
+      viewLink: '/Organizations',
+      dialog: <CreateOrganizationDialog onClose={() => setOrganizationCreator(false)} open={organizationCreator}/>,
     },
     {
       title: '市場',
       cardinal: 4,
       image: '',
       newHandler: _ => setMarketCreator(true),
-      listHandler: e => {
-        console.log(e)
-      },
+      viewLink: '/Markets',
       dialog: <CreateMarketDialog onClose={() => setMarketCreator(false)} open={marketCreator}/>,
     }
   ];
@@ -113,9 +105,6 @@ export default (props) => {
       cardinal: 5,
       image: '',
       newHandler: _ => setCommitmentCreator(true),
-      listHandler: e => {
-        console.log(e)
-      },
       dialog: <CreateCommitmentDialog onClose={() => setCommitmentCreator(false)} open={commitmentCreator}/>,
     },
     {
@@ -123,10 +112,7 @@ export default (props) => {
       cardinal: 6,
       image: '',
       newHandler: _ => setContractCreator(true),
-      listHandler: e => {
-        console.log(e)
-      },
-      dialog: <CreateContractDialog onClose={() => setContractCreator(false)} open={contractCreator}/>
+      dialog: <CreateContractDialog onClose={() => setContractCreator(false)} open={contractCreator}/>,
     }
   ];
 
