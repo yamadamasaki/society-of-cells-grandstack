@@ -82,7 +82,7 @@ type Contract @relation(name: "CONTRACT", direction: "BOTH") {
   description: String
 }
 
-type Accounting @relation(name: "ACCOUNTING", direction: "BOTH") {
+type Accounting @relation(name: "ACCOUNTING", direction: "OUT") {
   from: Cell
   to: Organization
   contract: String!
