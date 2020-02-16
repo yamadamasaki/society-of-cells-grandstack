@@ -1,10 +1,10 @@
 import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useQuery} from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import {useSnackbar} from "notistack";
 import {LinearProgress} from "@material-ui/core";
 import ActorTable from "../components/ActorTable";
+import {GET_ALL_ACTORS_TREE} from "../utils/model";
 
 const useStyles = makeStyles({
   root: {
@@ -15,15 +15,12 @@ const useStyles = makeStyles({
 export default props => {
   const classes = useStyles(props);
   const {enqueueSnackbar} = useSnackbar();
-  const {loading, data} = useQuery(
-    gql`query
-    {Actor {id, name, position, qualification, career, commitments
-    {Cell {id, name, type, purposes, offers, contracts
-    {Organization {name, type}}}}}}`,
-    {onError: e => enqueueSnackbar("GET_ALL_ACTORS failed")});
+  const {loading, data} = useQuery(GET_ALL_ACTORS_TREE,
+    {onError: e => enqueueSnackbar("GET_ALL_ACTORS_TREE failed")});
+  const actors = data ? data.Actor : []
 
   return (
     loading ? <LinearProgress/> :
-      <ActorTable actors={data ? data.Actor : []} className={classes.root}/>
+      <ActorTable actors={actors} className={classes.root}/>
   )
 }

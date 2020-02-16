@@ -37,6 +37,24 @@ export const CREATE_ACTOR = gql`
   }
 `;
 
+export const UPDATE_ACTOR = gql`
+  mutation UpdateActor($id: ID!, $name: String, $position: ActorPosition, $qualification: String, $career: String) {
+    UpdateActor(id: $id, name: $name, position: $position, qualification: $qualification, career: $career) {
+      id
+      name
+    }
+  }
+`
+
+export const DELETE_ACTOR = gql`
+  mutation DeleteActor($id: ID!) {
+    DeleteActor(id: $id) {
+      id
+      name
+    }
+  }
+`
+
 export const CREATE_CELL = gql`
   mutation CreateCell($name: String!, $type: CellType!, $purposes: String, $offers: String) {
     CreateCell(name: $name, type: $type, purposes: $purposes, offers: $offers) {
@@ -81,3 +99,9 @@ export const CREATE_CONTRACT = gql`
     }
   }
 `;
+
+export const GET_ALL_ACTORS_TREE = gql`
+  query
+  {Actor {id, name, position, qualification, career, commitments
+  {Cell {id, name, type, purposes, offers, contracts
+  {Organization {name, type}}}}}}`;
