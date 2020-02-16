@@ -1,7 +1,7 @@
 import React from "react";
 import MaterialTable from "material-table";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {CREATE_ACTOR, DELETE_ACTOR, GET_ALL_ACTORS_TREE, UPDATE_ACTOR} from "../utils/model"
+import {CREATE_ACTOR, DELETE_ACTOR, GET_ALL_ACTORS_TREE, positionsWithLabel, UPDATE_ACTOR} from "../utils/model"
 import {useMutation} from "@apollo/react-hooks";
 import {useSnackbar} from "notistack";
 
@@ -13,9 +13,23 @@ const useStyles = makeStyles({
 
 const schema = [
   {title: 'name', field: 'name'},
-  {title: 'position', field: 'position'},
-  {title: 'qualification', field: 'qualification'},
-  {title: 'career', field: 'career'},
+  {title: 'position', field: 'position', lookup: positionsWithLabel},
+  {
+    title: 'qualification', field: 'qualification',
+    render: rowData => (
+      <textarea value={rowData.qualification} readOnly/>
+    ),
+    editComponent: props => (
+      <textarea value={props.value} onChange={e => props.onChange(e.target.value)}/>
+    )
+  },
+  {title: 'career', field: 'career',
+    render: rowData => (
+      <textarea value={rowData.career} readOnly/>
+    ),
+    editComponent: props => (
+      <textarea value={props.value} onChange={e => props.onChange(e.target.value)}/>
+    )},
 ];
 
 export default ({actors}, ...props) => {
