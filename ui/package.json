@@ -42,17 +42,6 @@
     "husky": "^2.7.0",
     "lint-staged": "^8.2.1"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,json,css,md,graphql}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
