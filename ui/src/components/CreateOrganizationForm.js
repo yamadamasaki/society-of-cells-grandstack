@@ -1,86 +1,53 @@
-import { Field, Form, Formik } from "formik";
-import { Select, TextField } from "formik-material-ui";
-import { LinearProgress } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import React from "react";
-import MenuItem from "@material-ui/core/MenuItem";
-import {
-  CREATE_ORGANIZATION,
-  organizationTypes as types
-} from "../utils/model";
+import { CREATE_ORGANIZATION } from "../utils/model";
 import { useMutation } from "@apollo/react-hooks";
 import { useSnackbar } from "notistack";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
+import Ajv from "ajv";
+import { JSONSchemaBridge } from "uniforms-bridge-json-schema";
+import { AutoForm } from "uniforms-material";
 
-export default props => {
-  const onCancel = () => props.onClose(true, {});
+export default ({ onClose }) => {
   const [createOrganization] = useMutation(CREATE_ORGANIZATION);
   const { enqueueSnackbar } = useSnackbar();
 
-  return (
-    <Formik
-      initialValues={{
-        name: "",
-        type: ""
-      }}
-      validate={values => {
-        const errors = {};
-        if (!values.name) errors.name = "Required";
-        if (!values.type) errors.type = "Required";
-        return errors;
-      }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          createOrganization({ variables: values }).then(r =>
-            enqueueSnackbar(
-              r.errors
-                ? `Failed to add an organization: ${r.errors}`
-                : `New organization added: ${r.data.CreateOrganization.name} (${r.data.CreateOrganization.id})`
-            )
-          );
-          props.onClose(true, values);
-        });
-      }}
-    >
-      {({ submitForm, isSubmitting }) => (
-        <Form>
-          <Field
-            component={TextField}
-            name="name"
-            type="text"
-            label="Name"
-            variant="filled"
-          />
-          <br />
-          <FormControl>
-            <InputLabel htmlFor="organization-type">Type</InputLabel>
-            <Field
-              component={Select}
-              name="type"
-              inputProps={{ id: "organization-type" }}
-              select={types[0]}
-              variant="filled"
-            >
-              {types.map((value, index) => (
-                <MenuItem key={index} value={value}>
-                  {value}
-                </MenuItem>
-              ))}
-            </Field>
-          </FormControl>
-          <br />
-          {isSubmitting && <LinearProgress />}
-          <br />
-          <Button color="primary" disabled={isSubmitting} onClick={submitForm}>
-            Submit
-          </Button>
-          <Button onClick={onCancel} color="primary">
-            Cancel
-          </Button>
-        </Form>
-      )}
-    </Formik>
-  );
+  const ajv = new Ajv({ allErrors: true, useDefaults: true });
+  const schema = {
+    title: "Organization",
+    type: "object",
+    properties: {
+      name: { type: "string" },
+      type: {
+        type: "string",
+        enum: [
+          //'SELF',
+          "SUPPLIER",
+          "CUSTOMER"
+          //'MARKET'
+        ]
+      }
+    }
+  };
+  const createValidator = schema => {
+    const validator = ajv.compile(schema);
+    return model => {
+      validator(model);
+
+      if (validator.errors && validator.errors.length)
+        throw { details: validator.errors };
+    };
+  };
+  const schemaValidator = createValidator(schema);
+  const bridge = new JSONSchemaBridge(schema, schemaValidator);
+  const onSubmit = model => {
+    createOrganization({ variables: model }).then(r => {
+      enqueueSnackbar(
+        r.errors
+          ? `Failed to add an organization: ${r.errors}`
+          : `New organization added: ${r.data.CreateOrganization.name} (${r.data.CreateOrganization.id})`
+      );
+      onClose();
+    });
+  };
+
+  return <AutoForm schema={bridge} onSubmit={onSubmit} />;
 };
