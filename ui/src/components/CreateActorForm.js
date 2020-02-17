@@ -42,8 +42,10 @@ export default ({onClose}) => {
     return model => {
       validator(model);
 
-      if (validator.errors && validator.errors.length)
+      if (validator.errors && validator.errors.length) {
+        // eslint-disable-next-line
         throw {details: validator.errors};
+      }
     };
   };
   const schemaValidator = createValidator(schema);
