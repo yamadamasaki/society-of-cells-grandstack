@@ -1,38 +1,41 @@
-import React from "react";
-import { CREATE_ACTOR } from "../utils/model";
-import { useMutation } from "@apollo/react-hooks";
-import { useSnackbar } from "notistack";
-import { AutoForm } from "uniforms-material";
-import Ajv from "ajv";
-import { JSONSchemaBridge } from "uniforms-bridge-json-schema";
+import React from 'react';
+import {CREATE_ACTOR} from '../utils/model';
+import {useMutation} from '@apollo/react-hooks';
+import {useSnackbar} from 'notistack';
+import {AutoForm} from 'uniforms-material';
+import Ajv from 'ajv';
+import {JSONSchemaBridge} from 'uniforms-bridge-json-schema';
+import AutoFields from 'uniforms-material/AutoFields';
+import LongTextField from 'uniforms-material/LongTextField';
+import SubmitField from 'uniforms-material/SubmitField';
 
-export default ({ onClose }) => {
+export default ({onClose}) => {
   const [createActor] = useMutation(CREATE_ACTOR);
-  const { enqueueSnackbar } = useSnackbar();
+  const {enqueueSnackbar} = useSnackbar();
 
-  const ajv = new Ajv({ allErrors: true, useDefaults: true });
+  const ajv = new Ajv({allErrors: true, useDefaults: true});
   const schema = {
-    title: "Actor",
-    type: "object",
+    title: 'Actor',
+    type: 'object',
     properties: {
-      name: { type: "string" },
+      name: {type: 'string'},
       position: {
-        type: "string",
+        type: 'string',
         enum: [
-          "EXECUTIVE_FACILITATOR",
-          "PROJECT_FACILITATOR",
-          "ASSISTANT_FACILITATOR",
-          "PROFESSIONAL",
-          "EXPERT_STAFF",
-          "SENIOR_STAFF",
-          "ASSISTANT_STAFF",
-          "NEW_FACE"
-        ]
+          'EXECUTIVE_FACILITATOR',
+          'PROJECT_FACILITATOR',
+          'ASSISTANT_FACILITATOR',
+          'PROFESSIONAL',
+          'EXPERT_STAFF',
+          'SENIOR_STAFF',
+          'ASSISTANT_STAFF',
+          'NEW_FACE',
+        ],
       },
-      qualification: { type: "string" },
-      career: { type: "string" }
+      qualification: {type: 'string'},
+      career: {type: 'string'},
     },
-    required: ["name", "position"]
+    required: ['name', 'position'],
   };
   const createValidator = schema => {
     const validator = ajv.compile(schema);
@@ -40,21 +43,30 @@ export default ({ onClose }) => {
       validator(model);
 
       if (validator.errors && validator.errors.length)
-        throw { details: validator.errors };
+        throw {details: validator.errors};
     };
   };
   const schemaValidator = createValidator(schema);
   const bridge = new JSONSchemaBridge(schema, schemaValidator);
   const onSubmit = model => {
-    createActor({ variables: model }).then(r => {
+    createActor({variables: model}).then(r => {
       enqueueSnackbar(
-        r.errors
-          ? `Failed to add an actor: ${r.errors}`
-          : `New actor added: ${r.data.CreateActor.name} (${r.data.CreateActor.id})`
+          r.errors
+              ?
+              `Failed to add an actor: ${r.errors}`
+              :
+              `New actor added: ${r.data.CreateActor.name} (${r.data.CreateActor.id})`,
       );
       onClose();
     });
   };
 
-  return <AutoForm schema={bridge} onSubmit={onSubmit} />;
+  return (
+      <AutoForm schema={bridge} onSubmit={onSubmit}>
+        <AutoFields fields={['name', 'position']}/>
+        <LongTextField name="qualification"/>
+        <LongTextField name="career"/>
+        <SubmitField/>
+      </AutoForm>
+  );
 };
