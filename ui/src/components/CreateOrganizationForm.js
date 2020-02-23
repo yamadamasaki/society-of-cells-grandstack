@@ -2,44 +2,28 @@ import React from 'react';
 import {CREATE_ORGANIZATION} from '../utils/model';
 import {useMutation} from '@apollo/react-hooks';
 import {useSnackbar} from 'notistack';
-import Ajv from 'ajv';
-import {JSONSchemaBridge} from 'uniforms-bridge-json-schema';
 import {AutoForm} from 'uniforms-material';
+import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
+import SimpleSchema from 'simpl-schema';
+
+const schema = new SimpleSchema({
+  name: String,
+  type: {
+    type: String,
+    allowedValues: [
+      //'SELF',
+      'SUPPLIER',
+      'CUSTOMER',
+      //'MARKET'
+    ],
+  },
+});
 
 export default ({onClose}) => {
   const [createOrganization] = useMutation(CREATE_ORGANIZATION);
   const {enqueueSnackbar} = useSnackbar();
 
-  const ajv = new Ajv({allErrors: true, useDefaults: true});
-  const schema = {
-    title: 'Organization',
-    type: 'object',
-    properties: {
-      name: {type: 'string'},
-      type: {
-        type: 'string',
-        enum: [
-          //'SELF',
-          'SUPPLIER',
-          'CUSTOMER',
-          //'MARKET'
-        ],
-      },
-    },
-  };
-  const createValidator = schema => {
-    const validator = ajv.compile(schema);
-    return model => {
-      validator(model);
-
-      if (validator.errors && validator.errors.length) {
-        // eslint-disable-next-line
-        throw {details: validator.errors};
-      }
-    };
-  };
-  const schemaValidator = createValidator(schema);
-  const bridge = new JSONSchemaBridge(schema, schemaValidator);
+  const bridge = new SimpleSchema2Bridge(schema);
   const onSubmit = model => {
     createOrganization({variables: model}).then(r => {
       enqueueSnackbar(

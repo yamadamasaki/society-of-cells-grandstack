@@ -2,45 +2,34 @@ import React from 'react';
 import {CREATE_CELL} from '../utils/model';
 import {useMutation} from '@apollo/react-hooks';
 import {useSnackbar} from 'notistack';
-import Ajv from 'ajv';
-import {JSONSchemaBridge} from 'uniforms-bridge-json-schema';
-import {AutoForm} from 'uniforms-material';
+import AutoForm from 'uniforms-material/AutoForm';
 import AutoFields from 'uniforms-material/AutoFields';
 import LongTextField from 'uniforms-material/LongTextField';
 import SubmitField from 'uniforms-material/SubmitField';
+import SimpleSchema from 'simpl-schema';
+import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
+
+const schema = new SimpleSchema({
+  name: String,
+  type: {
+    type: String,
+    allowedValues: ['INNER', 'OUTER'],
+  },
+  purposes: {
+    type: String,
+    optional: true,
+  },
+  offers: {
+    type: String,
+    optional: true,
+  },
+});
 
 export default ({onClose}) => {
   const [createCell] = useMutation(CREATE_CELL);
   const {enqueueSnackbar} = useSnackbar();
 
-  const ajv = new Ajv({allErrors: true, useDefaults: true});
-  const schema = {
-    title: 'Cell',
-    type: 'object',
-    properties: {
-      name: {type: 'string'},
-      type: {
-        type: 'string',
-        enum: ['INNER', 'OUTER'],
-      },
-      purposes: {type: 'string'},
-      offers: {type: 'string'},
-    },
-    required: ['name', 'type'],
-  };
-  const createValidator = schema => {
-    const validator = ajv.compile(schema);
-    return model => {
-      validator(model);
-
-      if (validator.errors && validator.errors.length) {
-        // eslint-disable-next-line
-        throw {details: validator.errors};
-      }
-    };
-  };
-  const schemaValidator = createValidator(schema);
-  const bridge = new JSONSchemaBridge(schema, schemaValidator);
+  const bridge = new SimpleSchema2Bridge(schema);
   const onSubmit = model => {
     createCell({variables: model}).then(r => {
       enqueueSnackbar(
