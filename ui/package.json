@@ -26,8 +26,10 @@
     "react-graph-vis": "^1.0.5",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.2.0",
+    "simpl-schema": "^1.5.7",
     "uniforms": "^2.6.6",
     "uniforms-bridge-json-schema": "^2.6.6",
+    "uniforms-bridge-simple-schema-2": "^2.6.6",
     "uniforms-material": "^2.6.6"
   },
   "scripts": {
