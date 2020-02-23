@@ -122,20 +122,12 @@ export const CREATE_COMMITMENT = gql`
       from { id, name }
       to { id, name }
     }
-    AddCellCommitments(from: $from, to: $to, data: $data) {
-      from { id, name }
-      to { id, name }
-    }
   }
 `;
 
 export const CREATE_CONTRACT = gql`
   mutation AddCellContracts($from: _CellInput!, $to: _OrganizationInput!, $data: _ContractInput!) {
     AddCellContracts(from: $from, to: $to, data: $data) {
-      from { id, name }
-      to { id, name }
-    }
-    AddOrganizationContracts(from: $from, to: $to, data: $data) {
       from { id, name }
       to { id, name }
     }
